@@ -51,4 +51,5 @@ public class JpaCheckoutRepository implements CheckoutRepository {
             repository.save(order.get());
         }
     }
+
 }

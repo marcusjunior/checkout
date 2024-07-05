@@ -7,6 +7,7 @@ import com.br.checkout.application.service.CheckoutService;
 import com.br.checkout.domain.model.Order;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,5 +39,12 @@ public class CheckoutController {
         return orders.stream()
                 .map(OrderConverter::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    @PatchMapping("/order/{id}")
+    @Operation(summary = "Cancel a order", description = "Cancel a order without validation")
+    public ResponseEntity cancelOrder(@PathVariable Long id) {
+        checkoutService.cancelOrder(id);
+        return ResponseEntity.ok().build();
     }
 }

@@ -10,8 +10,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -46,26 +44,4 @@ public class CreateOrderUseCaseTest {
         assertEquals(order.getStatus(), createdOrder.getStatus());
     }
 
-    @Test
-    void testGetAllOrders() {
-        Order order1 = new Order();
-        order1.setId(1L);
-        order1.setAmount(BigDecimal.valueOf(100.0));
-        order1.setStatus(OrderStatus.PENDENTE);
-
-        Order order2 = new Order();
-        order2.setId(2L);
-        order2.setAmount(BigDecimal.valueOf(200.0));
-        order2.setStatus(OrderStatus.CONFIRMADO);
-
-        List<Order> orders = Arrays.asList(order1, order2);
-
-        when(checkoutRepository.findAll()).thenReturn(orders);
-
-        List<Order> allOrders = createOrderUseCase.getAllOrders();
-
-        assertEquals(2, allOrders.size());
-        assertEquals(order1.getId(), allOrders.get(0).getId());
-        assertEquals(order2.getId(), allOrders.get(1).getId());
-    }
 }

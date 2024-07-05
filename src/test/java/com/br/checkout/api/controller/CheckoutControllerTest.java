@@ -19,7 +19,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -97,5 +98,18 @@ public class CheckoutControllerTest {
                 .andExpect(jsonPath("$[1].id").value(2L))
                 .andExpect(jsonPath("$[1].amount").value(200.0))
                 .andExpect(jsonPath("$[1].status").value("CONFIRMADO"));
+    }
+
+    @Test
+    void testCancelOrder() throws Exception {
+        Long orderId = 1L;
+
+        doNothing().when(checkoutService).cancelOrder(orderId);
+
+        mockMvc.perform(patch("/checkout/order/{id}", orderId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        verify(checkoutService).cancelOrder(orderId);
     }
 }
